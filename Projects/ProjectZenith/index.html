@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Zenith - Modern Landing Page</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Audiowide&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- Custom Properties (Variables) --- */
+        :root {
+            --primary-bg: #121212; /* Dark background for sections (almost black) */
+            --secondary-bg: #1E1E1E; /* Slightly lighter dark for cards/alternates */
+            --accent-color: #FF5722; /* Amazing shade of orange for highlights */
+            --text-light: #E0E0E0; /* Light text for dark backgrounds */
+            --text-dark: #333333; /* Dark text for light backgrounds (less used) */
+            --button-primary: #333333; /* Dark grey for primary action button */
+            --button-secondary: #FF5722; /* Accent orange for secondary button */
+            --button-hover-primary: #222222; /* Darker shade for primary button hover */
+            --button-hover-secondary: #FF7043; /* Lighter/more vibrant orange for secondary button hover */
+            --border-color: #555555; /* Subtle border color */
+            --transition-speed: 0.3s ease-out;
+            --border-radius-lg: 12px;
+            --border-radius-sm: 8px;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* --- General Body & Container Styles --- */
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('Project Zenith.png') no-repeat center center/cover;
+            background-attachment: fixed; /* Parallax effect for the entire page */
+            color: var(--text-light);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-smoothing: grayscale;
+        }
+
+        /* Custom scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--secondary-bg);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--button-primary);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--button-hover-primary);
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px 0;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            color: var(--text-light);
+            margin-bottom: 20px;
+        }
+
+        h2.section-title {
+            font-size: 3em;
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+            padding-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        h2.section-title::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background-color: var(--accent-color);
+            border-radius: 2px;
+        }
+
+        .text-light {
+            color: var(--text-light);
+        }
+
+        a {
+            color: var(--accent-color);
+            text-decoration: none;
+            transition: color var(--transition-speed);
+        }
+
+        a:hover {
+            color: var(--button-hover-secondary);
+        }
+
+        /* Focus state for all interactive elements */
+        a:focus,
+        button:focus,
+        input:focus,
+        textarea:focus {
+            outline: 2px solid var(--accent-color);
+            outline-offset: 3px;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 4px rgba(255, 87, 34, 0.25); /* Adjusted for new accent color */
+        }
+
+        /* --- Buttons --- */
+        .btn {
+            display: inline-block;
+            padding: 14px 30px;
+            border-radius: var(--border-radius-sm);
+            text-align: center;
+            font-weight: 600;
+            font-size: 1.05em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all var(--transition-speed);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            margin: 0 10px; /* Spacing between buttons */
+        }
+
+        .btn-primary {
+            background-color: var(--button-primary);
+            color: var(--text-light);
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--button-hover-primary);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--button-secondary);
+            border: 2px solid var(--button-secondary);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--button-secondary);
+            color: var(--primary-bg);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        .btn-large {
+            padding: 18px 40px;
+            font-size: 1.2em;
+        }
+
+        /* --- Section Padding & Animations --- */
+        .section-padded {
+            padding: 100px 0;
+            opacity: 0; /* Initial state for animation */
+            transform: translateY(20px); /* Initial state for animation */
+            animation: fadeInUp 1s ease-out forwards; /* Apply animation */
+            /* Adjusted background color to allow main body background to show through */
+            background-color: rgba(18, 18, 18, 0.85); /* Slightly transparent primary-bg (new color) */
+        }
+
+        /* Staggered animation delays for sections */
+        .hero-section { animation-delay: 0.1s; }
+        .features-section { animation-delay: 0.3s; }
+        .showcase-section { animation-delay: 0.5s; }
+        .contact-section { animation-delay: 0.7s; }
+
+        /* Keyframes for fade-in-up animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .bg-dark {
+            /* Adjusted background color to allow main body background to show through */
+            background-color: rgba(30, 30, 30, 0.85); /* Slightly transparent secondary-bg (new color) */
+        }
+
+        /* --- Header Styles --- */
+        .header {
+            background: var(--primary-bg);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0;
+        }
+
+        .logo {
+            margin: 0;
+            font-size: 1.8em;
+            font-weight: 800;
+            color: var(--accent-color);
+            font-family: 'Audiowide', sans-serif; /* Changed to a graphical font */
+        }
+
+        .nav ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .nav ul li {
+            display: inline-block;
+            margin-left: 30px;
+        }
+
+        .nav ul li a {
+            color: var(--text-light);
+            font-weight: 500;
+            font-size: 1em;
+            position: relative;
+            padding-bottom: 5px;
+        }
+
+        .nav ul li a::after {
+            content: '';
+            position: absolute;
+            width: 0%;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--accent-color);
+            transition: width var(--transition-speed);
+        }
+
+        .nav ul li a:hover::after {
+            width: 100%;
+        }
+
+        /* Mobile Menu Specific Styles */
+        .menu-toggle {
+            display: none; /* Hide the actual checkbox */
+        }
+
+        .menu-icon {
+            display: none; /* Hidden by default, shown in media query */
+            cursor: pointer;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 25px;
+            height: 18px;
+            position: relative;
+            z-index: 1001;
+        }
+
+        .menu-icon .line {
+            display: block;
+            height: 2px;
+            width: 100%;
+            background-color: var(--accent-color);
+            border-radius: 1px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* Animation for lines when menu is open */
+        .menu-toggle:checked + .menu-icon .line:nth-child(1) {
+            transform: translateY(8px) rotate(45deg);
+        }
+
+        .menu-toggle:checked + .menu-icon .line:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle:checked + .menu-icon .line:nth-child(3) {
+            transform: translateY(-8px) rotate(-45deg);
+        }
+
+
+        /* --- Hero Section --- */
+        .hero-section {
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--text-light);
+        }
+
+        .hero-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero-title {
+            font-size: 4.5em;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 25px;
+            text-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        }
+
+        .hero-subtitle {
+            font-size: 1.5em;
+            font-weight: 300;
+            margin-bottom: 40px;
+            color: #ccc;
+        }
+
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        /* --- Features Section --- */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background-color: var(--primary-bg);
+            padding: 35px;
+            border-radius: var(--border-radius-lg);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            text-align: center;
+            transition: transform var(--transition-speed), box-shadow var(--transition-speed), background-color var(--transition-speed);
+            border: 1px solid var(--border-color);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            background-color: #202020;
+            border-color: var(--accent-color);
+        }
+
+        .feature-card h3 {
+            color: var(--accent-color);
+            font-size: 1.6em;
+            margin-bottom: 15px;
+        }
+
+        .feature-card p {
+            color: #d0d0d0;
+            font-size: 0.95em;
+        }
+
+        /* --- Showcase Section --- */
+        .showcase-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .showcase-item {
+            background-color: var(--secondary-bg);
+            border-radius: var(--border-radius-lg);
+            overflow: hidden;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+            transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+            border: 1px solid var(--border-color);
+        }
+
+        .showcase-item:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+        }
+
+        .showcase-item img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            display: block;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .showcase-info {
+            padding: 25px;
+        }
+
+        .showcase-info h3 {
+            font-size: 1.5em;
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: var(--text-light);
+        }
+
+        .showcase-info p {
+            font-size: 0.9em;
+            color: #d0d0d0;
+        }
+
+        /* --- Contact Section --- */
+        .contact-section {
+            text-align: center;
+        }
+
+        .contact-intro {
+            max-width: 800px;
+            margin: 0 auto 40px;
+            font-size: 1.2em;
+        }
+
+        /* --- Footer Styles --- */
+        .footer {
+            background: var(--primary-bg);
+            color: #a0a0a0;
+            padding: 30px 0;
+            text-align: center;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .footer p {
+            margin-bottom: 15px;
+            font-size: 0.9em;
+        }
+
+        .footer-links a {
+            color: #a0a0a0;
+            margin: 0 15px;
+            font-size: 0.9em;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-color);
+        }
+
+
+        /* --- Responsive Design --- */
+        @media (max-width: 992px) {
+            .hero-title {
+                font-size: 3.5em;
+            }
+            .hero-subtitle {
+                font-size: 1.3em;
+            }
+            h2.section-title {
+                font-size: 2.5em;
+            }
+            .nav ul li {
+                margin-left: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header .container {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+            .menu-icon {
+                display: flex; /* Show hamburger icon */
+            }
+            .nav {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: var(--primary-bg);
+                box-shadow: 0 8px 15px rgba(0,0,0,0.3);
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.3s ease-in-out;
+            }
+            .menu-toggle:checked ~ .nav {
+                max-height: 250px; /* Adjust as needed */
+            }
+            .nav ul {
+                flex-direction: column;
+                text-align: center;
+                padding: 20px 0;
+            }
+            .nav ul li {
+                margin: 10px 0;
+                display: block;
+            }
+            .hero-title {
+                font-size: 2.8em;
+            }
+            .hero-subtitle {
+                font-size: 1.1em;
+            }
+            .hero-buttons {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .btn {
+                width: 80%;
+                margin: 0 auto;
+            }
+            .section-padded {
+                padding: 70px 0;
+            }
+            h2.section-title {
+                font-size: 2em;
+            }
+            .features-grid, .showcase-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo {
+                font-size: 1.5em;
+            }
+            .hero-title {
+                font-size: 2.2em;
+            }
+            .hero-subtitle {
+                font-size: 1em;
+            }
+            .btn {
+                padding: 10px 20px;
+                font-size: 0.9em;
+            }
+            h2.section-title {
+                font-size: 1.8em;
+            }
+            .feature-card, .showcase-item {
+                padding: 25px;
+            }
+            .feature-card h3 {
+                font-size: 1.4em;
+            }
+            .showcase-info h3 {
+                font-size: 1.3em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1 class="logo">Zenith</h1>
+            <input type="checkbox" id="menu-toggle" class="menu-toggle">
+            <label for="menu-toggle" class="menu-icon">
+                <span class="line"></span>
+                <span class="line"></span>
+                <span class="line"></span>
+            </label>
+            <nav class="nav">
+                <ul>
+                    <li><a href="#hero">Home</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#showcase">Showcase</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section id="hero" class="hero-section section-padded">
+        <div class="container hero-content">
+            <h2 class="hero-title">Elevate Your Digital Presence</h2>
+            <p class="hero-subtitle">Discover a new era of web design with seamless animations and intuitive user experiences.</p>
+            <div class="hero-buttons">
+                <a href="#showcase" class="btn btn-primary">Explore Features</a>
+                <a href="#contact" class="btn btn-secondary">Get Started</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="features-section section-padded bg-dark">
+        <div class="container">
+            <h2 class="section-title text-light">Key Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3>Responsive Design</h3>
+                    <p>Adapts flawlessly to any screen size, from mobile to desktop, ensuring a consistent experience.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Modern Animations</h3>
+                    <p>Subtle yet impactful CSS animations bring your content to life without distractions.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Minimalist Aesthetic</h3>
+                    <p>Clean lines, ample whitespace, and a focused design for maximum clarity and impact.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Optimized Performance</h3>
+                    <p>Built for speed and efficiency, ensuring quick loading times and smooth interactions.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="showcase" class="showcase-section section-padded">
+        <div class="container">
+            <h2 class="section-title">Design Showcase</h2>
+            <div class="showcase-grid">
+                <div class="showcase-item">
+                    <img src="dashboard.png" alt="Interactive Dashboard">
+                    <div class="showcase-info">
+                        <h3>Interactive Dashboards</h3>
+                        <p>Dynamic and user-friendly interfaces for real-time data visualization and control.</p>
+                    </div>
+                </div>
+                <div class="showcase-item">
+                    <img src="Ecommerce.png" alt="E-commerce Platform">
+                    <div class="showcase-info">
+                        <h3>Seamless E-commerce</h3>
+                        <p>Optimized product showcases and streamlined checkout processes for online stores.</p>
+                    </div>
+                </div>
+                <div class="showcase-item">
+                    <img src="Blog.png" alt="Blog or Portfolio">
+                    <div class="showcase-info">
+                        <h3>Engaging Content Hubs</h3>
+                        <p>Beautifully structured layouts for blogs, portfolios, and news portals.</p>
+                    </div>
+                </div>
+                <div class="showcase-item">
+                    <img src="Brand Identity.png" alt="Brand Identity Site">
+                    <div class="showcase-info">
+                        <h3>Brand Identity Sites</h3>
+                        <p>Crafting unique online presences that truly reflect your brand's essence.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact-section section-padded bg-dark">
+        <div class="container">
+            <h2 class="section-title text-light">Ready to Elevate Your Project?</h2>
+            <p class="contact-intro text-light">Let's build something amazing together. Reach out to discuss your needs.</p>
+            <a href="mailto:contact@projectzenith.com" class="btn btn-primary btn-large">Contact Us</a>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Project Zenith. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

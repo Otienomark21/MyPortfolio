@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aura Dashboard - Black & Red</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* --- Custom Properties (Variables) --- */
+        :root {
+            --primary-bg: #1a1a1a; /* Dark background */
+            --secondary-bg: #2a2a2a; /* Card background, slightly lighter dark */
+            --border-color: #3d3d3d; /* Darker border for subtlety */
+            --text-light: #f0f0f0; /* Light text for contrast */
+            --text-muted: #aaaaaa; /* Muted gray for secondary text */
+
+            --accent-red: #e63946; /* Strong, vibrant red for primary accent */
+            --accent-dark-red: #c92c36; /* Slightly darker red for hover/active */
+            --accent-green: #2ecc71; /* Green for positive indicators */
+            --accent-blue: #3498db; /* Blue for neutral/info indicators */
+            --accent-orange: #e67e22; /* Orange for warnings */
+
+            --shadow-dark: 0 4px 15px rgba(0, 0, 0, 0.4); /* Darker shadow for dark theme */
+            --border-radius: 8px;
+            --transition-speed: 0.3s ease-in-out;
+        }
+
+        /* --- Basic Reset & Global Styles --- */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--text-light); /* Use light text on dark background */
+            background-color: var(--primary-bg);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Align to top */
+            padding: 40px 20px;
+        }
+
+        .dashboard-container {
+            display: grid;
+            grid-template-columns: 280px 1fr; /* Sidebar fixed, content flexible */
+            grid-template-rows: auto 1fr; /* Header then main content */
+            gap: 25px;
+            width: 100%;
+            max-width: 1500px;
+            min-height: calc(100vh - 80px); /* Adjust for body padding */
+            background-color: var(--secondary-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-dark); /* Use darker shadow */
+            overflow: hidden; /* For rounded corners */
+            border: 1px solid var(--border-color); /* Subtle outline */
+        }
+
+        /* --- Accessibility: Skip Link --- */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: var(--accent-red); /* Red skip link */
+            color: white;
+            padding: 8px;
+            z-index: 1000;
+            transition: top 0.3s ease-in-out;
+        }
+        .skip-link:focus {
+            top: 0;
+        }
+
+        /* --- Sidebar --- */
+        .sidebar {
+            grid-column: 1 / 2;
+            grid-row: 1 / 3; /* Spans header and main content */
+            background-color: var(--secondary-bg);
+            border-right: 1px solid var(--border-color);
+            padding: 25px 0;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto; /* Scroll for long menus */
+        }
+
+        .logo {
+            padding: 0 25px 30px;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 25px;
+        }
+        .logo h2 {
+            font-family: 'Nunito', sans-serif;
+            font-size: 1.8em;
+            color: var(--accent-red); /* Red logo text */
+            margin: 0;
+        }
+
+        .nav-menu {
+            list-style: none;
+            padding: 0;
+            flex-grow: 1; /* Pushes profile to bottom */
+        }
+        .nav-menu li a {
+            display: flex;
+            align-items: center;
+            padding: 15px 25px;
+            color: var(--text-light); /* Light text for menu items */
+            text-decoration: none;
+            font-weight: 500;
+            transition: background-color var(--transition-speed), color var(--transition-speed);
+            border-left: 5px solid transparent; /* For active state */
+        }
+        .nav-menu li a svg {
+            margin-right: 15px;
+            width: 20px;
+            height: 20px;
+            fill: var(--text-muted); /* Muted fill for icons */
+            transition: fill var(--transition-speed);
+        }
+        .nav-menu li a:hover {
+            background-color: var(--primary-bg); /* Darker background on hover */
+            color: var(--accent-red); /* Red text on hover */
+            border-left-color: var(--accent-red);
+        }
+        .nav-menu li a:hover svg {
+            fill: var(--accent-red);
+        }
+        .nav-menu li a.active {
+            background-color: var(--primary-bg);
+            color: var(--accent-red);
+            border-left-color: var(--accent-red);
+            font-weight: 600;
+        }
+        .nav-menu li a.active svg {
+            fill: var(--accent-red);
+        }
+        .nav-menu li a:focus { /* Accessibility focus state */
+            outline: 2px solid var(--accent-red); /* Red outline for focus */
+            outline-offset: -2px;
+            border-radius: 4px; /* For better visual */
+        }
+
+        .profile-section {
+            padding: 25px;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+        }
+        .profile-section img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 10px;
+            border: 2px solid var(--accent-red); /* Red border for profile pic */
+        }
+        .profile-section p {
+            font-weight: 600;
+            color: var(--text-light);
+            margin-bottom: 5px;
+        }
+        .profile-section small {
+            color: var(--text-muted);
+            font-size: 0.85em;
+        }
+
+        /* --- Main Content Area --- */
+        .main-content {
+            grid-column: 2 / 3;
+            grid-row: 1 / 3;
+            display: grid;
+            grid-template-rows: auto 1fr; /* Header then main grid */
+            overflow-y: auto; /* Scrollable main content */
+        }
+
+        /* --- Top Bar / Header --- */
+        .top-bar {
+            padding: 25px 30px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: var(--secondary-bg);
+        }
+        .top-bar h1 {
+            font-family: 'Nunito', sans-serif;
+            font-size: 2em;
+            color: var(--text-light);
+            margin: 0;
+            font-weight: 700;
+        }
+        .search-bar {
+            position: relative;
+        }
+        .search-bar input {
+            padding: 10px 15px 10px 40px;
+            border: 1px solid var(--border-color);
+            background-color: var(--primary-bg); /* Darker input background */
+            color: var(--text-light);
+            border-radius: var(--border-radius);
+            font-size: 1em;
+            width: 250px;
+            transition: border-color var(--transition-speed);
+        }
+        .search-bar input::placeholder {
+            color: var(--text-muted);
+        }
+        .search-bar input:focus {
+            border-color: var(--accent-red); /* Red border on focus */
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(230, 57, 70, 0.3); /* Red shadow on focus */
+        }
+        .search-bar svg {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 18px;
+            height: 18px;
+            fill: var(--text-muted);
+        }
+
+        /* --- Dashboard Grid --- */
+        .dashboard-grid {
+            padding: 30px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            align-items: start; /* Align items to the start of their grid cell */
+            background-color: var(--primary-bg);
+        }
+
+        /* --- Card Styles --- */
+        .card {
+            background-color: var(--secondary-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-dark); /* Darker shadow */
+            padding: 25px;
+            transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6); /* Even darker shadow on hover */
+        }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .card-header h3 {
+            font-family: 'Nunito', sans-serif;
+            font-size: 1.3em;
+            color: var(--text-light);
+            font-weight: 700;
+        }
+        .card-header .icon {
+            width: 30px;
+            height: 30px;
+            background-color: rgba(230, 57, 70, 0.15); /* Semi-transparent red background */
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .card-header .icon svg {
+            fill: var(--accent-red); /* Red icon fill */
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Specific card color themes for icons */
+        .card.card-sales .icon { background-color: rgba(46, 204, 113, 0.15); } /* Green */
+        .card.card-sales .icon svg { fill: var(--accent-green); }
+        .card.card-users .icon { background-color: rgba(230, 126, 34, 0.15); } /* Orange */
+        .card.card-users .icon svg { fill: var(--accent-orange); }
+        .card.card-revenue .icon { background-color: rgba(52, 152, 219, 0.15); } /* Blue */
+        .card.card-revenue .icon svg { fill: var(--accent-blue); }
+
+        /* Stats Card */
+        .stats-value {
+            font-family: 'Nunito', sans-serif;
+            font-size: 2.8em;
+            font-weight: 700;
+            color: var(--text-light);
+            margin-bottom: 5px;
+        }
+        .stats-subtext {
+            color: var(--text-muted);
+            font-size: 0.9em;
+        }
+
+        /* Progress Card */
+        .progress-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: conic-gradient(var(--accent-red) 75%, var(--border-color) 75%); /* Red progress */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px auto;
+            position: relative;
+        }
+        .progress-circle::after {
+            content: "75%"; /* Actual percentage */
+            position: absolute;
+            font-size: 1.8em;
+            font-weight: 700;
+            color: var(--text-light);
+            background-color: var(--secondary-bg); /* Card background for inner circle */
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .progress-text {
+            text-align: center;
+            font-size: 1em;
+            color: var(--text-muted);
+        }
+
+        /* Recent Activity Card (List) */
+        .activity-list {
+            list-style: none;
+            margin-top: 15px;
+            flex-grow: 1;
+        }
+        .activity-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px dashed var(--border-color);
+        }
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+        .activity-item .activity-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 15px;
+            font-size: 0.9em;
+            color: white;
+        }
+        .activity-item .activity-icon.icon-green { background-color: var(--accent-green); }
+        .activity-item .activity-icon.icon-blue { background-color: var(--accent-blue); }
+        .activity-item .activity-icon.icon-orange { background-color: var(--accent-orange); }
+        .activity-item .activity-icon.icon-red { background-color: var(--accent-red); }
+
+
+        .activity-details {
+            flex-grow: 1;
+        }
+        .activity-details p {
+            margin: 0;
+            font-size: 0.95em;
+            color: var(--text-light);
+        }
+        .activity-details small {
+            color: var(--text-muted);
+            font-size: 0.8em;
+        }
+        .activity-amount {
+            font-weight: 600;
+            color: var(--accent-blue); /* Default amount color (can be customized) */
+        }
+        .activity-amount.positive { color: var(--accent-green); }
+        .activity-amount.negative { color: var(--accent-red); }
+
+        /* Chart Placeholder (Simulated) */
+        .chart-placeholder {
+            height: 250px; /* Fixed height for visual consistency */
+            background-color: var(--primary-bg);
+            border-radius: var(--border-radius);
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--text-muted);
+            font-size: 1.1em;
+            /* Making the border more distinct for visibility */
+            border: 2px dashed var(--accent-red); /* Changed to red accent color and thicker */
+        }
+
+        /* --- Accessibility: Skip to Main Content Link --- */
+        /* Make sure interactive elements have proper focus styles */
+
+        /* --- Media Queries for Responsiveness --- */
+        @media (max-width: 1024px) {
+            .dashboard-container {
+                grid-template-columns: 1fr; /* Stack layout */
+                grid-template-rows: auto auto 1fr; /* Sidebar, then header, then main grid */
+                max-width: 900px; /* Constrain width on smaller screens */
+            }
+            .sidebar {
+                grid-column: 1 / 2;
+                grid-row: 2 / 3; /* Sidebar below header on mobile */
+                border-right: none;
+                border-bottom: 1px solid var(--border-color);
+                padding-bottom: 10px;
+                order: -1; /* Place sidebar visually above main content */
+            }
+            .main-content {
+                grid-column: 1 / 2;
+                grid-row: 3 / 4; /* Main content after sidebar */
+                padding-top: 0;
+                overflow-y: visible; /* Allow content to scroll within the body if needed */
+            }
+            .top-bar {
+                grid-column: 1 / 2;
+                grid-row: 1 / 2;
+                padding: 20px;
+                flex-direction: column; /* Stack title and search bar */
+                gap: 15px;
+                align-items: flex-start;
+            }
+            .top-bar h1 {
+                font-size: 1.8em;
+            }
+            .search-bar input {
+                width: 100%;
+                max-width: 300px;
+            }
+            .dashboard-grid {
+                padding: 20px;
+                grid-template-columns: 1fr; /* Single column on small screens */
+            }
+            .sidebar {
+                width: 100%;
+            }
+            .nav-menu {
+                display: flex; /* Make nav items horizontal on smaller screens */
+                flex-wrap: wrap;
+                justify-content: center;
+                border-bottom: 1px solid var(--border-color);
+            }
+            .nav-menu li a {
+                border-left: none; /* Remove left border */
+                border-bottom: 3px solid transparent; /* Use bottom border for active */
+                padding: 10px 15px;
+                margin: 0 5px;
+            }
+            .nav-menu li a svg {
+                display: none; /* Hide icons on mobile nav */
+            }
+            .nav-menu li a.active {
+                border-bottom-color: var(--accent-red); /* Red bottom border for active */
+            }
+            .profile-section {
+                display: none; /* Hide profile section on small screens */
+            }
+            .logo {
+                display: none; /* Hide logo on small screens for more space */
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 20px 10px;
+            }
+            .dashboard-container {
+                min-height: auto;
+            }
+            .top-bar {
+                align-items: center; /* Center items again after stacking */
+            }
+            .top-bar h1 {
+                text-align: center;
+                width: 100%;
+            }
+            .search-bar input {
+                max-width: 250px; /* Keep reasonable width */
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <div class="dashboard-container">
+        <aside class="sidebar" aria-label="Dashboard Navigation">
+            <div class="logo">
+                <h2>Aura Dashboard</h2>
+            </div>
+            <nav>
+                <ul class="nav-menu" role="menubar">
+                    <li role="none"><a href="#" class="active" role="menuitem">
+                        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2L2 7v10l10 5 10-5V7L12 2zm0 2.31l6 3.03v4.61l-6 3.03-6-3.03V7.34l6-3.03zM12 16.69l-4-2.02V9.31l4 2.02 4-2.02v5.36l-4 2.02z"/></svg>
+                        Dashboard
+                    </a></li>
+                    <li role="none"><a href="#" role="menuitem">
+                        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                        Users
+                    </a></li>
+                    <li role="none"><a href="#" role="menuitem">
+                        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22 9h-4V3H6v6H2v12h20V9zM8 5h8v4H8V5zm12 14H4v-8h16v8z"/></svg>
+                        Products
+                    </a></li>
+                    <li role="none"><a href="#" role="menuitem">
+                        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 10h-2V6c0-2.21-1.79-4-4-4S8 3.79 8 6v4H6c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-8c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zM16 10h-3V6c0-1.65-1.35-3-3-3S7 4.35 7 6v4h-3c0 0 0 0 0 0v8h12v-8z"/></svg>
+                        Settings
+                    </a></li>
+                    <li role="none"><a href="#" role="menuitem">
+                        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm0 16H5V5h14v14zM17 8H7v2h10V8zm-2 4H7v2h8v-2zm-1 4H7v2h7v-2z"/></svg>
+                        Reports
+                    </a></li>
+                </ul>
+            </nav>
+            <div class="profile-section">
+                <img src="image/profilephoto.JPG" alt="User Profile Picture">
+                <p>Mark Wilma</p>
+                <small>Administrator</small>
+            </div>
+        </aside>
+
+        <main class="main-content" id="main-content">
+            <header class="top-bar">
+                <h1>Dashboard Overview</h1>
+                <div class="search-bar" role="search">
+                    <input type="search" placeholder="Search anything..." aria-label="Search dashboard content">
+                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+                </div>
+            </header>
+
+            <section class="dashboard-grid" aria-label="Dashboard Widgets">
+                <div class="card card-sales">
+                    <div class="card-header">
+                        <h3>Total Sales</h3>
+                        <div class="icon" aria-hidden="true">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18H7V6h10v12zm0-14H7c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-7 8c.55 0 1-.45 1-1V9c0-.55-.45-1-1-1s-1 .45-1 1v2c0 .55.45 1 1 1zm4 0c.55 0 1-.45 1-1V9c0-.55-.45-1-1-1s-1 .45-1 1v2c0 .55.45 1 1 1z"/></svg>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p class="stats-value">$1,234,567</p>
+                        <p class="stats-subtext">+12% from last month</p>
+                    </div>
+                </div>
+
+                <div class="card card-users">
+                    <div class="card-header">
+                        <h3>New Users</h3>
+                        <div class="icon" aria-hidden="true">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-4 0c1.66 0 2.99-1.34 2.99-3S13.66 5 12 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm0 2c-2.67 0-8 1.34-8 4v3h16v-3c0-2.66-5.33-4-8-4z"/></svg>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p class="stats-value">8,901</p>
+                        <p class="stats-subtext">+5% from last week</p>
+                    </div>
+                </div>
+
+                <div class="card card-revenue">
+                    <div class="card-header">
+                        <h3>Total Revenue</h3>
+                        <div class="icon" aria-hidden="true">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v4h-2V7zm0 6h2v2h-2v-2z"/></svg>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p class="stats-value">$567,890</p>
+                        <p class="stats-subtext">Year to Date</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Monthly Target</h3>
+                        <div class="icon" aria-hidden="true">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"/></svg>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="progress-circle"></div>
+                        <p class="progress-text">75% of goal achieved</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Sales Performance</h3>
+                        <div class="icon" aria-hidden="true">
+                            <svg xmlns=" https://www.w3.org/TR/SVG2/" viewBox="0 0 24 24"><path d="M16 11h-2V6h-4v5H8l4 4zM4 20h16v2H4z"/></svg>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-placeholder">Bar Chart Placeholder</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>User Growth</h3>
+                        <div class="icon" aria-hidden="true">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-placeholder">Line Chart Placeholder</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Recent Activity</h3>
+                        <div class="icon" aria-hidden="true">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.51 0-2.91-.49-4.06-1.3l-1.42 1.42C8.24 20.37 10.05 21 12 21c4.97 0 9-4.03 9-9s-4.03-9-9-9z"/></svg>
+                        </div>
+                    </div>
+                    <ul class="activity-list">
+                        <li class="activity-item">
+                            <div class="activity-icon icon-green" aria-hidden="true">✔</div>
+                            <div class="activity-details">
+                                <p>Order #1023 <span class="activity-amount positive">+$250</span></p>
+                                <small>Processed 5 mins ago</small>
+                            </div>
+                        </li>
+                        <li class="activity-item">
+                            <div class="activity-icon icon-blue" aria-hidden="true">💡</div>
+                            <div class="activity-details">
+                                <p>New feature deployed</p>
+                                <small>by Jane Doe 1 hour ago</small>
+                            </div>
+                        </li>
+                        <li class="activity-item">
+                            <div class="activity-icon icon-orange" aria-hidden="true">🔔</div>
+                            <div class="activity-details">
+                                <p>Account update required</p>
+                                <small>User notification</small>
+                            </div>
+                        </li>
+                        <li class="activity-item">
+                            <div class="activity-icon icon-red" aria-hidden="true">❌</div>
+                            <div class="activity-details">
+                                <p>Refund for #987 <span class="activity-amount negative">-$50</span></p>
+                                <small>Product return</small>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+</html>

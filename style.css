@@ -1,0 +1,859 @@
+/* Google Fonts Import: Imports fonts from Google Fonts API */
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&family=IBM+Plex+Sans:wght@300;400&display=swap');
+
+/* --- Custom Properties (Variables) --- */
+/* Define reusable colors, sizes, and speeds for easy theme management and consistency */
+:root {
+    --primary-bg: #1a1a1a;        /* Dark background for main sections */
+    --secondary-bg: #2a2a2a;      /* Slightly lighter dark for cards/alternate sections */
+    --accent-color: #61bbf8;      /* Light blue/cyan for highlights, links, and interactive elements */
+    --text-light: #f0f0f0;        /* Light text color for dark backgrounds */
+    --text-dark: #333333;         /* Dark text color (less used in this dark theme) */
+    --border-color: #444444;      /* Subtle border color for separation */
+    --button-primary: #61bbf8;    /* Deep purple-blue for primary action buttons */
+    --button-hover: #4e5a80;      /* Darker shade of primary button for hover state */
+    --transition-speed: 0.3s ease-out; /* Standard transition duration for animations */
+    --border-radius-lg: 12px;     /* Larger border radius for cards and forms */
+    --border-radius-sm: 8px;      /* Smaller border radius for buttons and inputs */
+}
+
+/* Smooth scrolling behavior for anchor links (e.g., clicking nav items) */
+html {
+    scroll-behavior: smooth;
+}
+
+/* --- General Body & Container Styles --- */
+body {
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    /* Moved background properties here to apply to the entire page */
+    background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('Images/bgphoto.jpg') no-repeat center center/cover;
+    background-attachment: fixed; /* Parallax effect for the entire page */
+    background-size: cover; /* Ensure the image covers the entire background */
+    background-position: center center; /* Center the background image */
+    color: var(--text-light); /* Apply light text color for dark backgrounds */
+    -webkit-font-smoothing: antialiased; /* Smoother font rendering for WebKit browsers (Chrome, Safari) */
+    -moz-osx-font-smoothing: grayscale; /* Smoother font rendering for Firefox */
+}
+
+/* Custom scrollbar styling for WebKit browsers (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+    width: 8px; /* Width of the scrollbar */
+}
+::-webkit-scrollbar-track {
+    background: var(--secondary-bg); /* Background of the scrollbar track */
+}
+::-webkit-scrollbar-thumb {
+    background: var(--button-primary); /* Color of the scrollbar thumb */
+    border-radius: 10px; /* Rounded corners for the thumb */
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--button-hover); /* Darker color on hover */
+}
+
+/* Container for consistent content width and centering */
+.container {
+    width: 90%; /* Responsive width */
+    max-width: 1200px; /* Maximum width to prevent content from stretching too wide */
+    margin: auto; /* Center the container horizontally */
+    padding: 30px 0; /* Vertical padding */
+}
+
+/* Heading styles (h1, h2, h3) */
+h1, h2, h3 {
+    font-family: 'Jost', sans-serif; /* Heading font */
+    font-weight: 600; /* Semi-bold */
+    margin-bottom: 25px; /* Spacing below headings */
+    color: var(--text-light); /* Default color for headings on dark backgrounds */
+}
+
+/* Section Title specific styling */
+h2.section-title {
+    font-size: 3.2em; /* Large font size */
+    text-align: center; /* Center align text */
+    margin-bottom: 60px; /* Large spacing below title */
+    position: relative; /* Needed for the ::after pseudo-element for the underline */
+    padding-bottom: 15px; /* Space for the underline */
+    text-transform: uppercase; /* Uppercase text */
+    letter-spacing: 2px; /* Spaced out letters */
+}
+
+/* Underline effect for section titles using a pseudo-element */
+h2.section-title::after {
+    content: ''; /* Required for pseudo-elements */
+    position: absolute;
+    left: 50%; /* Center the underline horizontally */
+    bottom: 0; /* Position at the bottom of the title */
+    transform: translateX(-50%); /* Adjust for exact centering */
+    width: 80px; /* Width of the underline */
+    height: 5px; /* Thickness of the underline */
+    background-color: var(--accent-color); /* Accent color */
+    border-radius: 3px; /* Rounded ends for the underline */
+}
+
+/* Utility classes for text colors */
+.text-light {
+    color: var(--text-light);
+}
+
+.text-dark {
+    color: var(--text-dark);
+}
+
+/* General link styles */
+a {
+    color: var(--accent-color); /* Accent color for links */
+    text-decoration: none; /* Remove default underline */
+    transition: color var(--transition-speed); /* Smooth color transition on hover/focus */
+}
+
+a:hover {
+    color: #a4f2ff; /* Slightly lighter accent color on hover */
+}
+
+/* Focus state for all interactive elements (accessibility) */
+/* Provides a clear visual indicator when elements are tabbed to */
+a:focus,
+button:focus,
+input:focus,
+textarea:focus {
+    outline: 2px solid var(--accent-color); /* Visible outline for keyboard navigation */
+    outline-offset: 3px; /* Space between outline and element */
+    border-color: var(--accent-color); /* Highlight border */
+    box-shadow: 0 0 0 4px rgba(139, 233, 253, 0.25); /* Subtle glow effect */
+}
+
+
+/* --- Buttons --- */
+.btn {
+    display: inline-block; /* Allows padding and margin, but respects content width */
+    padding: 14px 30px; /* Vertical and horizontal padding */
+    border-radius: var(--border-radius-sm); /* Rounded corners */
+    text-align: center;
+    font-weight: 500;
+    font-size: 1.1em;
+    text-transform: uppercase; /* Uppercase text */
+    letter-spacing: 0.5px; /* Slightly spaced out letters */
+    transition: all var(--transition-speed); /* Smooth transitions for all properties */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2); /* Subtle shadow */
+}
+
+/* Primary button styling */
+.btn-primary {
+    background-color: var(--button-primary); /* Primary button background color */
+    color: var(--primary-bg); /* Light text color */
+    border: none; /* No border */
+}
+
+/* Primary button hover effect */
+.btn-primary:hover {
+    background-color: var(--button-hover); /* Darker shade on hover */
+    transform: translateY(-3px); /* Lifts button slightly */
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3); /* Larger shadow on hover */
+}
+
+/* Secondary button styling (outline button) */
+.btn-secondary {
+    background-color: transparent; /* Transparent background */
+    color: var(--accent-color); /* Accent color text */
+    border: 2px solid var(--accent-color); /* Accent color border */
+}
+
+/* Secondary button hover effect */
+.btn-secondary:hover {
+    background-color: var(--accent-color); /* Fills with accent color on hover */
+    color: var(--primary-bg); /* Text becomes dark on hover */
+    transform: translateY(-3px); /* Lifts button slightly */
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3); /* Larger shadow on hover */
+}
+
+/* Tertiary button styling (for project view links) */
+.btn-tertiary {
+    background-color: var(--secondary-bg); /* Secondary background color */
+    color: var(--accent-color); /* Accent color text */
+    border: 1px solid var(--border-color); /* Subtle border */
+    padding: 10px 20px; /* Smaller padding */
+    font-size: 0.95em; /* Slightly smaller font */
+    text-transform: capitalize; /* Capitalize first letter */
+    box-shadow: none; /* No initial shadow */
+}
+
+/* Tertiary button hover effect */
+.btn-tertiary:hover {
+    background-color: var(--accent-color); /* Fills with accent color on hover */
+    color: var(--primary-bg); /* Text becomes dark on hover */
+    border-color: var(--accent-color); /* Border matches accent color */
+    transform: translateY(-2px); /* Lifts button slightly */
+    box-shadow: 0 5px 10px rgba(0,0,0,0.2); /* Subtle shadow on hover */
+}
+
+
+/* --- Section Padding --- */
+/* Base padding for all main content sections */
+.section-padded {
+    padding: 100px 0; /* Vertical padding */
+    /* Changed background-color to a semi-transparent black to allow the body background to show through */
+    background-color: rgba(0, 0, 0, 0.85); /* Semi-transparent black */
+    /* Animation for sections: Fades up from below on page load */
+    opacity: 0; /* Start invisible */
+    transform: translateY(20px); /* Start 20px below final position */
+    animation: fadeInUp 1s ease-out forwards; /* Apply animation */
+}
+
+/* Staggered animation delays for each section to appear sequentially */
+#about { animation-delay: 0.2s; }
+#skills { animation-delay: 0.4s; }
+#education { animation-delay: 0.6s; }
+#interests { animation-delay: 0.8s; }
+#projects { animation-delay: 1.0s; }
+#contact { animation-delay: 1.2s; }
+
+/* Keyframes for the fadeInUp animation */
+@keyframes fadeInUp {
+    from {
+        opacity: 0; /* Start completely transparent */
+        transform: translateY(20px); /* Start 20px below */
+    }
+    to {
+        opacity: 1; /* End fully opaque */
+        transform: translateY(0); /* End at original position */
+    }
+}
+
+/* Utility class for sections with secondary background color */
+.bg-dark {
+    /* Changed background-color to a semi-transparent darker black */
+    background-color: rgba(0, 0, 0, 0.9); /* Slightly darker semi-transparent black */
+}
+
+/* --- Header Styles --- */
+.main-header {
+    /* Changed background to a semi-transparent black */
+    background: rgba(0, 0, 0, 0.95); /* Almost opaque black */
+    padding: 25px 0; /* Vertical padding */
+    position: sticky; /* Makes header stick to the top when scrolling */
+    top: 0; /* Sticks to the very top */
+    z-index: 1000; /* Ensures header is above other content */
+    box-shadow: 0 2px 15px rgba(0,0,0,0.4); /* Subtle shadow for depth */
+}
+
+.main-header .container {
+    display: flex; /* Use flexbox for layout */
+    justify-content: space-between; /* Space out logo and nav/menu icon */
+    align-items: center; /* Vertically align items */
+    padding: 0; /* Remove padding from container within header as header has its own padding */
+}
+
+.main-header .logo {
+    margin: 0;
+    font-size: 2.2em;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: var(--accent-color); /* Accent color for the logo */
+}
+
+.main-nav ul {
+    margin: 0;
+    padding: 0;
+    list-style: none; /* Remove bullet points from list */
+}
+
+.main-nav ul li {
+    display: inline-block; /* Display list items horizontally */
+    margin-left: 40px; /* Spacing between nav items */
+}
+
+.main-nav ul li a {
+    color: var(--text-light); /* Light text color for nav links */
+    text-transform: uppercase; /* Uppercase text */
+    font-weight: 500;
+    font-size: 1.05em;
+    position: relative; /* Needed for the underline effect */
+    padding-bottom: 8px; /* Space for the underline */
+    transition: color var(--transition-speed); /* Smooth color transition */
+}
+
+/* Underline effect for navigation links on hover */
+.main-nav ul li a::after {
+    content: '';
+    position: absolute;
+    width: 0%; /* Start with no width */
+    height: 3px; /* Thickness of underline */
+    bottom: 0; /* Position at the bottom of the link */
+    left: 0; /* Start from the left */
+    background-color: var(--accent-color); /* Accent color for underline */
+    transition: width var(--transition-speed); /* Animate width on hover */
+}
+
+.main-nav ul li a:hover {
+    color: var(--accent-color); /* Change text color on hover */
+}
+
+.main-nav ul li a:hover::after {
+    width: 100%; /* Expand underline to full width on hover */
+}
+
+/* --- Hero Section --- */
+.hero {
+    /* Background properties moved to body, this section now acts as a content container */
+    min-height: 85vh; /* Minimum height of 85% of viewport height */
+    display: flex; /* Use flexbox to center content */
+    align-items: center; /* Vertically center content */
+    justify-content: center; /* Horizontally center content */
+    text-align: center;
+    color: var(--text-light);
+    position: relative; /* Needed for z-index or other positioning */
+    overflow: hidden; /* Hides any overflowing content, useful for animations */
+}
+
+.hero-content {
+    max-width: 900px;
+    margin: auto;
+    position: relative;
+    z-index: 1; /* Ensures content is above background effects */
+}
+
+.hero-content .profile-pic {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%; /* Makes the image circular */
+    border: 6px solid var(--accent-color); /* Accent colored border */
+    object-fit: cover; /* Ensures image covers the area without distortion */
+    margin-bottom: 30px;
+    box-shadow: 0 0 25px rgba(139, 233, 253, 0.4); /* Initial glow effect */
+    animation: pulseBorder 2s infinite alternate; /* Apply pulsing animation */
+}
+
+/* Keyframes for the pulsing border animation on the profile picture */
+@keyframes pulseBorder {
+    from { box-shadow: 0 0 25px rgba(139, 233, 253, 0.4); } /* Start with lighter glow */
+    to { box-shadow: 0 0 35px rgba(139, 233, 253, 0.8); } /* End with stronger glow */
+}
+
+.hero-content .greeting {
+    font-size: 1.4em;
+    font-weight: 300;
+    margin-bottom: 10px;
+    color: #ccc;
+}
+
+.hero-content h2 {
+    font-size: 5em;
+    margin-bottom: 15px;
+    line-height: 1.1;
+    color: var(--text-light);
+    text-shadow: 0 0 15px rgba(0,0,0,0.3); /* Subtle text shadow */
+}
+
+.hero-content .tagline {
+    font-size: 1.8em;
+    font-weight: 300;
+    margin-bottom: 50px;
+    color: #e0e0e0;
+}
+
+.hero-content .tagline span {
+    color: var(--accent-color); /* Highlight color for specific text */
+    font-weight: 600;
+}
+
+/* --- About Section --- */
+.about-content {
+    max-width: 900px;
+    margin: auto;
+    text-align: center;
+    font-size: 1.1em;
+    color: #d0d0d0;
+}
+
+.about-content p {
+    margin-bottom: 20px;
+}
+
+/* --- Skills Section --- */
+.skills-grid {
+    display: flex; /* Use flexbox for skill items */
+    flex-wrap: wrap; /* Allow items to wrap to the next line */
+    justify-content: center; /* Center skill items horizontally */
+    gap: 25px; /* Space between skill items */
+    max-width: 1000px;
+    margin: auto;
+}
+
+.skill-item {
+    background-color: var(--primary-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-sm);
+    padding: 18px 30px;
+    font-weight: 500;
+    font-size: 1.1em;
+    color: var(--accent-color);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+    transition: transform var(--transition-speed), background-color var(--transition-speed), border-color var(--transition-speed);
+}
+
+.skill-item:hover {
+    transform: translateY(-7px); /* Lifts item on hover */
+    background-color: var(--accent-color); /* Background changes to accent color */
+    color: var(--primary-bg); /* Text color changes to primary background color */
+    border-color: var(--accent-color); /* Border matches accent color */
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3); /* Larger shadow on hover */
+}
+
+/* --- Education Section --- */
+.education-timeline {
+    max-width: 800px;
+    margin: auto;
+    position: relative; /* Needed for the vertical timeline line */
+    padding: 20px 0;
+}
+
+/* Vertical line for the education timeline */
+.education-timeline::before {
+    content: '';
+    position: absolute;
+    left: 50%; /* Center the line */
+    width: 2px; /* Thickness of the line */
+    height: 100%; /* Full height of the timeline container */
+    background: var(--border-color); /* Color of the line */
+    transform: translateX(-50%); /* Adjust for exact centering */
+}
+
+.timeline-item {
+    background-color: var(--secondary-bg);
+    border-radius: var(--border-radius-sm);
+    padding: 30px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    position: relative; /* Needed for the circle indicator */
+    max-width: 45%; /* For alternating items on left and right */
+    transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+}
+
+/* Positioning for odd timeline items (left side) */
+.timeline-item:nth-child(odd) {
+    left: 0;
+    transform: translateX(-5%) translateY(0); /* Subtle initial shift */
+}
+
+/* Positioning for even timeline items (right side) */
+.timeline-item:nth-child(even) {
+    left: 55%;
+    transform: translateX(5%) translateY(0); /* Subtle initial shift */
+}
+
+/* Timeline item hover effect */
+.timeline-item:hover {
+    transform: translateX(0%) translateY(-5px); /* Move slightly up on hover */
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3); /* Larger shadow on hover */
+}
+
+/* Circle indicator for each timeline item */
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    top: 30px; /* Vertical position */
+    width: 15px;
+    height: 15px;
+    background-color: var(--accent-color); /* Accent color for the circle */
+    border-radius: 50%; /* Makes it a circle */
+    border: 3px solid var(--primary-bg); /* Border to match background */
+    z-index: 2; /* Ensures circle is above the timeline line */
+}
+
+/* Positioning for circle on odd timeline items */
+.timeline-item:nth-child(odd)::before {
+    right: -42px; /* Position circle on the right side of the item */
+}
+
+/* Positioning for circle on even timeline items */
+.timeline-item:nth-child(even)::before {
+    left: -42px; /* Position circle on the left side of the item */
+}
+
+.timeline-item h3 {
+    color: var(--accent-color);
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 1.8em;
+}
+
+.timeline-item .institution {
+    font-weight: 500;
+    color: #bbb;
+    margin-bottom: 5px;
+    font-size: 1.1em;
+}
+
+.timeline-item .years {
+    font-style: italic;
+    color: #999;
+    font-size: 0.9em;
+    display: block;
+    margin-bottom: 15px;
+}
+
+.cv-download {
+    text-align: center;
+    margin-top: 60px;
+}
+
+/* --- Interests Section --- */
+.interests-grid {
+    display: grid; /* Use CSS Grid for layout */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive columns */
+    gap: 30px; /* Space between grid items */
+    max-width: 1100px;
+    margin: auto;
+}
+
+.interest-card {
+    background-color: var(--primary-bg);
+    padding: 35px;
+    border-radius: var(--border-radius-lg);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    text-align: center;
+    transition: transform var(--transition-speed), box-shadow var(--transition-speed), background-color var(--transition-speed);
+    border: 1px solid var(--border-color);
+}
+
+.interest-card:hover {
+    transform: translateY(-10px); /* Lifts card on hover */
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3); /* Larger shadow on hover */
+    background-color: #202020; /* Slightly lighter background on hover */
+    border-color: var(--accent-color); /* Border changes to accent color */
+}
+
+.interest-card h3 {
+    color: var(--accent-color);
+    margin-bottom: 15px;
+    font-size: 1.6em;
+}
+
+.interest-card p {
+    color: #d0d0d0;
+    font-size: 1em;
+}
+
+/* --- Projects Section --- */
+.projects-grid {
+    display: grid; /* Use CSS Grid for layout */
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* Responsive columns */
+    gap: 40px; /* Space between grid items */
+    max-width: 1200px;
+    margin: auto;
+}
+
+.project-card {
+    background-color: var(--secondary-bg);
+    border-radius: var(--border-radius-lg);
+    overflow: hidden; /* Ensures image corners are rounded */
+    box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+    transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+    border: 1px solid var(--border-color);
+}
+
+.project-card:hover {
+    transform: translateY(-12px); /* Lifts card on hover */
+    box-shadow: 0 12px 30px rgba(0,0,0,0.4); /* Larger shadow on hover */
+}
+
+.project-card img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover; /* Ensures image covers the area without distortion */
+    display: block;
+    border-bottom: 1px solid var(--border-color); /* Separator below image */
+}
+
+.project-info {
+    padding: 25px;
+}
+
+.project-info h3 {
+    font-size: 1.8em;
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: var(--text-light);
+}
+
+.project-info p {
+    font-size: 0.95em;
+    color: #d0d0d0;
+    margin-bottom: 25px;
+}
+
+/* --- Contact Section --- */
+.contact-intro {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 50px;
+    font-size: 1.2em;
+    color: #e0e0e0;
+}
+
+.contact-form {
+    max-width: 700px;
+    margin: auto;
+    background-color: var(--primary-bg);
+    padding: 50px;
+    border-radius: var(--border-radius-lg);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    border: 1px solid var(--border-color);
+}
+
+.contact-form .form-group {
+    margin-bottom: 30px;
+}
+
+.contact-form label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 500;
+    color: var(--text-light);
+    font-size: 1.1em;
+}
+
+.contact-form input[type="text"],
+.contact-form input[type="email"],
+.contact-form textarea {
+    width: 100%;
+    padding: 15px;
+    background-color: var(--secondary-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-sm);
+    font-size: 1em;
+    font-family: 'IBM Plex Sans', sans-serif;
+    color: var(--text-light);
+    transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
+}
+
+.contact-form input::placeholder,
+.contact-form textarea::placeholder {
+    color: #888;
+}
+
+.contact-form textarea {
+    resize: vertical; /* Allow vertical resizing only */
+    min-height: 150px;
+}
+
+.contact-form .btn-submit {
+    width: 100%; /* Full width button */
+    padding: 18px;
+    font-size: 1.3em;
+    background-color: var(--accent-color);
+    color: var(--primary-bg);
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.contact-form .btn-submit:hover {
+    background-color: #a4f2ff; /* Lighter accent on hover */
+    transform: translateY(-3px); /* Lifts button slightly */
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3); /* Larger shadow on hover */
+}
+
+/* --- Footer Styles --- */
+.main-footer {
+    /* Changed background to a semi-transparent black */
+    background: rgba(0, 0, 0, 0.95); /* Almost opaque black */
+    color: #a0a0a0;
+    padding: 40px 0;
+    text-align: center;
+    border-top: 1px solid var(--border-color); /* Separator line at the top */
+}
+
+.main-footer p {
+    margin-bottom: 20px;
+    font-size: 0.9em;
+}
+
+.social-links a {
+    color: var(--text-light); /* Icon color */
+    margin: 0 20px; /* Space between icons */
+    font-size: 1.2em; /* Icon size */
+    transition: color var(--transition-speed), transform var(--transition-speed);
+}
+
+.social-links a:hover {
+    color: var(--accent-color); /* Icon color changes to accent on hover */
+    transform: translateY(-3px); /* Lifts icon slightly on hover */
+}
+
+
+/* --- Responsive Design (Media Queries) --- */
+
+/* Mobile Menu Specific Styles */
+.menu-toggle {
+    display: none; /* Hide the actual checkbox input */
+}
+
+.menu-icon {
+    display: none; /* Hidden by default, shown only in media queries for mobile */
+    cursor: pointer;
+    flex-direction: column; /* Stack lines vertically */
+    justify-content: space-between; /* Distribute lines vertically */
+    width: 30px; /* Width of the hamburger icon */
+    height: 22px; /* Height of the hamburger icon */
+    position: relative;
+    z-index: 1001; /* Ensure it's above other elements */
+}
+
+.menu-icon .line {
+    display: block;
+    height: 3px; /* Thickness of each line */
+    width: 100%; /* Full width of the icon */
+    background-color: var(--accent-color); /* Accent color for lines */
+    border-radius: 2px; /* Rounded ends for lines */
+    transition: all 0.3s ease-in-out; /* Smooth animation for lines */
+}
+
+/* Animation for lines when menu is open (checkbox is checked) */
+.menu-toggle:checked + .menu-icon .line:nth-child(1) {
+    transform: translateY(9px) rotate(45deg); /* Top line rotates and moves to form part of 'X' */
+}
+
+.menu-toggle:checked + .menu-icon .line:nth-child(2) {
+    opacity: 0; /* Middle line fades out */
+}
+
+.menu-toggle:checked + .menu-icon .line:nth-child(3) {
+    transform: translateY(-10px) rotate(-45deg); /* Bottom line rotates and moves to form part of 'X' */
+}
+
+
+/* Styles for screens up to 992px wide (e.g., tablets in landscape) */
+@media (max-width: 992px) {
+    .main-nav ul li {
+        margin-left: 25px; /* Reduce spacing between nav items */
+    }
+    .hero-content h2 {
+        font-size: 4em; /* Adjust hero heading size */
+    }
+    .hero-content .tagline {
+        font-size: 1.5em; /* Adjust hero tagline size */
+    }
+    h2.section-title {
+        font-size: 2.8em; /* Adjust section title size */
+    }
+    .timeline-item {
+        max-width: 90%; /* Allow timeline items to take more width */
+        left: 5%; /* Shift items slightly to the right */
+        transform: translateX(0) translateY(0); /* Reset initial transforms */
+        margin-bottom: 20px; /* Reduce vertical spacing */
+    }
+    .education-timeline::before {
+        left: 50%; /* Keep timeline line centered for simplicity on smaller screens */
+    }
+    .timeline-item::before {
+        left: -15px; /* Adjust circle position for single column layout */
+    }
+    .timeline-item:nth-child(odd)::before,
+    .timeline-item:nth-child(even)::before {
+        left: -15px; /* Force all circles to one side for single column */
+    }
+}
+
+/* Styles for screens up to 768px wide (e.g., tablets in portrait, larger phones) */
+@media (max-width: 768px) {
+    .main-header .container {
+        flex-direction: row; /* Keep logo and icon on same row */
+        justify-content: space-between; /* Space them out */
+    }
+    .main-header .logo {
+        margin-bottom: 0; /* Remove extra margin */
+    }
+    .menu-icon {
+        display: flex; /* Show the hamburger icon on smaller screens */
+    }
+    .main-nav {
+        /* Position off-screen by default, then slide down when toggled */
+        position: absolute;
+        top: 100%; /* Position right below the header */
+        left: 0;
+        width: 100%;
+        background-color: var(--primary-bg); /* Match header background */
+        box-shadow: 0 8px 15px rgba(0,0,0,0.3);
+        max-height: 0; /* Hidden by default (height collapses) */
+        overflow: hidden; /* Hide overflowing content */
+        transition: max-height 0.3s ease-in-out; /* Smooth transition for menu height */
+    }
+
+    .menu-toggle:checked ~ .main-nav {
+        max-height: 300px; /* Expand menu height when checkbox is checked */
+    }
+
+    .main-nav ul {
+        flex-direction: column; /* Stack nav items vertically */
+        text-align: center; /* Center align nav items */
+        padding: 20px 0; /* Vertical padding for the expanded menu */
+    }
+    .main-nav ul li {
+        margin: 15px 0; /* Vertical spacing for menu items */
+        display: block; /* Each item takes full width */
+    }
+    .main-nav ul li a::after {
+        left: 50%; /* Center the underline for mobile nav items */
+        transform: translateX(-50%);
+    }
+
+    .hero {
+        padding: 100px 0; /* Reduce hero section padding */
+    }
+    .hero-content h2 {
+        font-size: 3em; /* Further adjust hero heading size */
+    }
+    .hero-content .tagline {
+        font-size: 1.3em; /* Further adjust hero tagline size */
+    }
+    .section-padded {
+        padding: 70px 0; /* Reduce section padding */
+    }
+    h2.section-title {
+        font-size: 2.2em; /* Further adjust section title size */
+        margin-bottom: 40px;
+    }
+    .skills-grid, .interests-grid, .projects-grid {
+        grid-template-columns: 1fr; /* Force single column layout for grids */
+    }
+    .project-card {
+        max-width: 450px; /* Limit max width for project cards in single column */
+        margin: auto; /* Center project cards */
+    }
+    .contact-form {
+        padding: 30px; /* Reduce contact form padding */
+    }
+}
+
+/* Styles for screens up to 480px wide (e.g., smaller phones) */
+@media (max-width: 480px) {
+    /* Main nav styles for 480px are now largely handled by the 768px breakpoint */
+    .hero-content .profile-pic {
+        width: 150px; /* Smaller profile picture */
+        height: 150px;
+    }
+    .hero-content h2 {
+        font-size: 2.5em; /* Even smaller hero heading */
+    }
+    .hero-content .tagline {
+        font-size: 1.1em; /* Even smaller hero tagline */
+    }
+    .btn {
+        padding: 12px 20px;
+        font-size: 1em;
+    }
+    h2.section-title {
+        font-size: 1.8em;
+    }
+    .timeline-item h3 {
+        font-size: 1.5em;
+    }
+    .project-info h3 {
+        font-size: 1.5em;
+    }
+}

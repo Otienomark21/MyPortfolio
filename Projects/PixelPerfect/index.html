@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pixel Perfect Gallery</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        /* --- Custom Properties (Variables) --- */
+        :root {
+            --primary-bg: #0d1117; /* Dark charcoal */
+            --secondary-bg: #161b22; /* Slightly lighter charcoal */
+            --accent-color-1: #00bcd4; /* Cyan blue */
+            --accent-color-2: #ff4081; /* Pink accent */
+            --text-light: #e6edf3;
+            --text-muted: #8b949e;
+            --border-color: #30363d;
+            --card-border-radius: 10px;
+            --transition-speed-fast: 0.2s ease-out;
+            --transition-speed-slow: 0.4s ease-in-out;
+        }
+
+        /* --- Basic Reset & Global Styles --- */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            line-height: 1.6;
+            color: var(--text-light);
+            background-color: var(--primary-bg);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px 20px;
+            overflow-x: hidden; /* Prevent horizontal scroll from transform effects */
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--secondary-bg);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent-color-1);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-color-2);
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        /* --- Hero/Header Section --- */
+        .page-header {
+            margin-bottom: 80px;
+            animation: fadeInDown 1s var(--transition-speed-slow) forwards;
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+
+        .page-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 4.5em;
+            color: var(--accent-color-1);
+            margin-bottom: 15px;
+            text-shadow: 0 5px 15px rgba(0,0,0,0.4);
+            letter-spacing: 2px;
+            position: relative;
+            display: inline-block; /* For the underline effect */
+        }
+
+        .page-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: -10px;
+            height: 4px;
+            background: var(--accent-color-2);
+            transform: scaleX(0);
+            transition: transform var(--transition-speed-slow);
+            transform-origin: center;
+        }
+
+        .page-header:hover .page-title::after {
+            transform: scaleX(1);
+        }
+
+        .page-subtitle {
+            font-size: 1.4em;
+            color: var(--text-muted);
+            max-width: 900px;
+            margin: 0 auto;
+            font-weight: 300;
+        }
+
+        /* --- Gallery Grid --- */
+        .gallery-grid {
+            display: grid;
+            /* Adaptive grid: 2, 3 or 4 columns based on screen size, with flexible item widths */
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-auto-rows: minmax(250px, auto); /* Minimum row height for consistent look */
+            gap: 25px;
+            align-items: stretch;
+            list-style: none; /* Remove bullet points if using ul/li */
+        }
+
+        /* Staggered fade-in animation for gallery items */
+        .gallery-item {
+            background-color: var(--secondary-bg);
+            border-radius: var(--card-border-radius);
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+            transition: transform var(--transition-speed-slow), box-shadow var(--transition-speed-slow), background-color var(--transition-speed-fast);
+            position: relative;
+            cursor: pointer;
+            opacity: 0; /* Initial state for animation */
+            transform: translateY(30px); /* Initial state for animation */
+            animation: fadeInUp 0.8s ease-out forwards;
+            border: 1px solid var(--border-color); /* Subtle border */
+        }
+
+        /* Calculate animation delay for staggered effect */
+        .gallery-item:nth-child(1) { animation-delay: 0.1s; }
+        .gallery-item:nth-child(2) { animation-delay: 0.2s; }
+        .gallery-item:nth-child(3) { animation-delay: 0.3s; }
+        .gallery-item:nth-child(4) { animation-delay: 0.4s; }
+        .gallery-item:nth-child(5) { animation-delay: 0.5s; }
+        .gallery-item:nth-child(6) { animation-delay: 0.6s; }
+        .gallery-item:nth-child(7) { animation-delay: 0.7s; }
+        .gallery-item:nth-child(8) { animation-delay: 0.8s; }
+        .gallery-item:nth-child(9) { animation-delay: 0.9s; }
+        /* Add more for more items */
+
+
+        /* --- Gallery Item Hover Effects --- */
+        .gallery-item:hover {
+            transform: translateY(-8px) scale(1.02); /* Lift and slightly enlarge */
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+            background-color: #20262d; /* Slightly lighter on hover */
+            border-color: var(--accent-color-1);
+            z-index: 10; /* Ensure it's above others */
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            filter: grayscale(0.2); /* Subtle grayscale */
+            transition: filter var(--transition-speed-slow), transform var(--transition-speed-slow);
+        }
+
+        .gallery-item:hover img {
+            filter: grayscale(0); /* Remove grayscale on hover */
+            transform: scale(1.05); /* Zoom in image subtly */
+        }
+
+        /* --- Image Skeleton Loader (CSS only) --- */
+        .gallery-item.loading img {
+            display: none; /* Hide real image while loading */
+        }
+        .gallery-item.loading::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, var(--secondary-bg) 25%, #24292e 50%, var(--secondary-bg) 75%);
+            background-size: 200% 100%;
+            animation: skeleton-loading 1.5s infinite;
+        }
+
+        @keyframes skeleton-loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        /* --- Gallery Info Overlay --- */
+        .gallery-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0.0));
+            padding: 20px;
+            color: var(--text-light);
+            text-align: left;
+            transform: translateY(100%);
+            transition: transform var(--transition-speed-slow) cubic-bezier(0.2, 0.8, 0.2, 1); /* Bouncier animation */
+            opacity: 0;
+            pointer-events: none; /* Allows click through when not visible */
+            display: flex; /* For alignment of content */
+            flex-direction: column;
+            justify-content: flex-end; /* Push content to bottom */
+            height: 100%; /* Make overlay cover full item height for full reveal */
+        }
+
+        .gallery-item:hover .gallery-info {
+            transform: translateY(0);
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .gallery-info h3 {
+            font-size: 1.6em;
+            margin-bottom: 8px;
+            color: var(--accent-color-1);
+            font-weight: 600;
+            transition: color var(--transition-speed-fast);
+        }
+        .gallery-item:hover .gallery-info h3 {
+            color: var(--accent-color-2); /* Change color on hover for emphasis */
+        }
+
+        .gallery-info p {
+            font-size: 0.95em;
+            color: var(--text-muted);
+            opacity: 0.9;
+            margin-bottom: 10px; /* Space above tags */
+        }
+
+        /* Tags/Categories */
+        .gallery-tags {
+            margin-top: auto; /* Push tags to the bottom of the overlay */
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .gallery-tag {
+            background-color: rgba(var(--accent-color-2), 0.2); /* Semi-transparent accent color */
+            color: var(--accent-color-2);
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.8em;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border: 1px solid var(--accent-color-2);
+            transition: background-color var(--transition-speed-fast), color var(--transition-speed-fast);
+        }
+
+        .gallery-tag:hover {
+            background-color: var(--accent-color-2);
+            color: var(--primary-bg);
+        }
+
+        /* --- Advanced Grid Sizing (More Dynamic Layout) --- */
+        /* These classes provide a "masonry-like" effect within the grid */
+        .gallery-item.span-2-col {
+            grid-column: span 2;
+        }
+
+        .gallery-item.span-2-row {
+            grid-row: span 2;
+        }
+
+        .gallery-item.span-2-all {
+            grid-column: span 2;
+            grid-row: span 2;
+        }
+
+        /* --- Animations --- */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* --- Responsive Design --- */
+        @media (min-width: 768px) {
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Allow flexible columns */
+            }
+            .page-title {
+                font-size: 3.5em;
+            }
+            .page-subtitle {
+                font-size: 1.2em;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .gallery-grid {
+                grid-template-columns: repeat(4, 1fr); /* Default to 4 columns on large screens */
+            }
+            .page-title {
+                font-size: 4.5em;
+            }
+            .gallery-item.span-2-col {
+                grid-column: span 2;
+            }
+
+            .gallery-item.span-2-row {
+                grid-row: span 2;
+            }
+
+            .gallery-item.span-2-all {
+                grid-column: span 2;
+                grid-row: span 2;
+            }
+        }
+
+        @media (max-width: 767px) {
+            body {
+                padding: 30px 15px;
+            }
+            .page-title {
+                font-size: 2.8em;
+                letter-spacing: 1px;
+            }
+            .page-subtitle {
+                font-size: 1em;
+                margin-bottom: 50px;
+            }
+            .gallery-grid {
+                grid-template-columns: 1fr; /* Single column on small screens */
+                grid-auto-rows: minmax(220px, auto);
+                gap: 20px;
+            }
+            /* Disable special spans on small screens for consistent column layout */
+            .gallery-item.span-2-col,
+            .gallery-item.span-2-row,
+            .gallery-item.span-2-all {
+                grid-column: auto;
+                grid-row: auto;
+            }
+            .gallery-info h3 {
+                font-size: 1.4em;
+            }
+            .gallery-info p {
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="page-header">
+            <h1 class="page-title">Pixel Perfect Gallery</h1>
+            <p class="page-subtitle">A dynamic image gallery showcasing advanced **CSS Grid techniques** and **image optimization principles** for stunning visual experiences across all devices. Dive into a collection where every pixel matters.</p>
+        </header>
+
+        <ul class="gallery-grid">
+            <li class="gallery-item">
+                <img src="images/serene-lake-view.jpg" alt="Mountain Lake Reflection">
+                <div class="gallery-info">
+                    <h3>Azure Peaks Reflection</h3>
+                    <p>Capturing the serene interplay of majestic mountains and crystal-clear waters at dawn.</p>
+                    <div class="gallery-tags">
+                        <span class="gallery-tag">Nature</span>
+                        <span class="gallery-tag">Landscape</span>
+                    </div>
+                </div>
+            </li>
+            <li class="gallery-item span-2-row">
+                <img src="images/Luminous grid" alt="Abstract Lines">
+                <div class="gallery-info">
+                    <h3>Luminous Grid</h3>
+                    <p>An intricate abstract design where light and shadow create captivating geometric patterns.</p>
+                    <div class="gallery-tags">
+                        <span class="gallery-tag">Abstract</span>
+                        <span class="gallery-tag">Art</span>
+                    </div>
+                </div>
+            </li>
+            <li class="gallery-item span-2-col">
+                <img src="images/developerdesk.jpg" alt="Developer Setup">
+                <div class="gallery-info">
+                    <h3>The Digital Forge</h3>
+                    <p>A finely tuned developer's desk, optimized for peak productivity and innovation in the coding realm.</p>
+                    <div class="gallery-tags">
+                        <span class="gallery-tag">Tech</span>
+                        <span class="gallery-tag">Workspace</span>
+                    </div>
+                </div>
+            </li>
+            <li class="gallery-item">
+                <img src="images/NeonMetroplois" alt="Cityscape at Night">
+                <div class="gallery-info">
+                    <h3>Neon Metropolis</h3>
+                    <p>The city skyline ablaze with electric life, a symphony of urban architecture at night.</p>
+                    <div class="gallery-tags">
+                        <span class="gallery-tag">Urban</span>
+                        <span class="gallery-tag">City</span>
+                    </div>
+                </div>
+            </li>
+            <li class="gallery-item span-2-all">
+                <img src="images/visionaries.png" alt="Team Collaboration">
+                <div class="gallery-info">
+                    <h3>United Visionaries</h3>
+                    <p>Dynamic collaboration in action, fostering innovation and achieving shared goals seamlessly.</p>
+                    <div class="gallery-tags">
+                        <span class="gallery-tag">Teamwork</span>
+                        <span class="gallery-tag">Business</span>
+                        <span class="gallery-tag">Strategy</span>
+                    </div>
+                </div>
+            </li>
+            <li class="gallery-item">
+                <img src="images/Digitalfortress" alt="Cyber Security">
+                <div class="gallery-info">
+                    <h3>Digital Fortress</h3>
+                    <p>Visualizing the complex layers of cyber security protecting sensitive information in a connected world.</p>
+                    <div class="gallery-tags">
+                        <span class="gallery-tag">Security</span>
+                        <span class="gallery-tag">Cyber</span>
+                    </div>
+                </div>
+            </li>
+            <li class="gallery-item">
+                <img src="images/soundmixer.jpg" alt="Sound Mixer">
+                <div class="gallery-info">
+                    <h3>Harmonic Control</h3>
+                    <p>The intricate controls of a sound mixing console, where raw audio transforms into refined melodies.</p>
+                    <div class="gallery-tags">
+                        <span class="gallery-tag">Audio</span>
+                        <span class="gallery-tag">Music</span>
+                    </div>
+                </div>
+            </li>
+             <li class="gallery-item">
+                <img src="images/Success.jpg" alt="Business Strategy">
+                <div class="gallery-info">
+                    <h3>Blueprint for Success</h3>
+                    <p>Developing robust business strategies, charting the course for future growth and market leadership.</p>
+                    <div class="gallery-tags">
+                        <span class="gallery-tag">Business</span>
+                        <span class="gallery-tag">Strategy</span>
+                    </div>
+                </div>
+            </li>
+            <li class="gallery-item span-2-col">
+                <img src="images/vr.jpg" alt="VR Headset">
+                <div class="gallery-info">
+                    <h3>Immersive Horizons</h3>
+                    <p>Stepping into new realities with cutting-edge VR technology, redefining interactive experiences.</p>
+                    <div class="gallery-tags">
+                        <span class="gallery-tag">VR</span>
+                        <span class="gallery-tag">Gaming</span>
+                        <span class="gallery-tag">Future Tech</span>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</body>
+</html>
