@@ -1,7 +1,7 @@
 # Mark Wilma's Personal Portfolio Website
 
 !Project screenshot https://github.com/Otienomark21/Portfolio/blob/main/Project-Snapshot.PNG 
-_Replace this placeholder image with an actual screenshot of your deployed portfolio._
+
 
 ---
 
@@ -35,7 +35,7 @@ To view this project locally or explore the code:
 
 1.  **Clone the repository:**
     ```bash
-    git clone https://github.com/Otienomark21/Portfolio.git
+   git clone https://github.com/Otienomark21/MyPortfolio.git
     ```
 2.  **Navigate to the project directory:**
     ```bash
