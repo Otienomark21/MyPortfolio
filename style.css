@@ -4,17 +4,17 @@
 /* --- Custom Properties (Variables) --- */
 /* Define reusable colors, sizes, and speeds for easy theme management and consistency */
 :root {
-    --primary-bg: #1a1a1a;        /* Dark background for main sections */
-    --secondary-bg: #2a2a2a;      /* Slightly lighter dark for cards/alternate sections */
-    --accent-color: #61bbf8;      /* Light blue/cyan for highlights, links, and interactive elements */
-    --text-light: #f0f0f0;        /* Light text color for dark backgrounds */
-    --text-dark: #333333;         /* Dark text color (less used in this dark theme) */
-    --border-color: #444444;      /* Subtle border color for separation */
-    --button-primary: #61bbf8;    /* Deep purple-blue for primary action buttons */
-    --button-hover: #4e5a80;      /* Darker shade of primary button for hover state */
+    --primary-bg: #1a1a1a; 	/* Dark background for main sections */
+    --secondary-bg: #2a2a2a; 	/* Slightly lighter dark for cards/alternate sections */
+    --accent-color: #61bbf8; 	/* Light blue/cyan for highlights, links, and interactive elements */
+    --text-light: #f0f0f0; 	/* Light text color for dark backgrounds */
+    --text-dark: #333333; 	/* Dark text color (less used in this dark theme) */
+    --border-color: #444444; 	/* Subtle border color for separation */
+    --button-primary: #61bbf8; 	/* Deep purple-blue for primary action buttons */
+    --button-hover: #4e5a80; 	/* Darker shade of primary button for hover state */
     --transition-speed: 0.3s ease-out; /* Standard transition duration for animations */
-    --border-radius-lg: 12px;     /* Larger border radius for cards and forms */
-    --border-radius-sm: 8px;      /* Smaller border radius for buttons and inputs */
+    --border-radius-lg: 12px; 	/* Larger border radius for cards and forms */
+    --border-radius-sm: 8px; 	/* Smaller border radius for buttons and inputs */
 }
 
 /* Smooth scrolling behavior for anchor links (e.g., clicking nav items) */
@@ -663,20 +663,26 @@ textarea:focus {
     /* Changed background to a semi-transparent black */
     background: rgba(0, 0, 0, 0.95); /* Almost opaque black */
     color: #a0a0a0;
-    padding: 40px 0;
+    padding: 25px 0; /* Reduced vertical padding from 40px to 25px */
     text-align: center;
     border-top: 1px solid var(--border-color); /* Separator line at the top */
 }
 
+/* New rule to make the footer content narrower */
+.main-footer .container {
+    max-width: 800px; /* Reduced max-width for the footer's content */
+    padding: 0 15px; /* Added some horizontal padding in case width gets too small */
+}
+
 .main-footer p {
-    margin-bottom: 20px;
-    font-size: 0.9em;
+    margin-bottom: 15px; /* Slightly reduced margin-bottom for a tighter feel */
+    font-size: 0.85em; /* Slightly smaller font size */
 }
 
 .social-links a {
     color: var(--text-light); /* Icon color */
-    margin: 0 20px; /* Space between icons */
-    font-size: 1.2em; /* Icon size */
+    margin: 0 15px; /* Reduced space between icons from 20px to 15px */
+    font-size: 1.1em; /* Slightly smaller icon size */
     transition: color var(--transition-speed), transform var(--transition-speed);
 }
 
@@ -757,6 +763,11 @@ textarea:focus {
     .timeline-item:nth-child(even)::before {
         left: -15px; /* Force all circles to one side for single column */
     }
+
+    /* Footer adjustments for 992px */
+    .main-footer .container {
+        max-width: 700px; /* Make it a bit narrower for this breakpoint */
+    }
 }
 
 /* Styles for screens up to 768px wide (e.g., tablets in portrait, larger phones) */
@@ -828,6 +839,11 @@ textarea:focus {
     .contact-form {
         padding: 30px; /* Reduce contact form padding */
     }
+
+    /* Footer adjustments for 768px */
+    .main-footer .container {
+        max-width: 600px; /* Even narrower for this breakpoint */
+    }
 }
 
 /* Styles for screens up to 480px wide (e.g., smaller phones) */
@@ -855,5 +871,14 @@ textarea:focus {
     }
     .project-info h3 {
         font-size: 1.5em;
+    }
+
+    /* Footer adjustments for 480px */
+    .main-footer .container {
+        max-width: 90%; /* Allow it to take up most of the width */
+        padding: 0 10px; /* Adjust horizontal padding */
+    }
+    .social-links a {
+        margin: 0 10px; /* Reduce spacing between social icons for small screens */
     }
 }
