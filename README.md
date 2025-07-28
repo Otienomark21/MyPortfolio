@@ -35,7 +35,8 @@ This is my personal portfolio website, meticulously crafted using **HTML** and *
 To view this project locally or explore the code:
 
 1.  **Clone the repository:**
-    ```bash git clone https://github.com/Otienomark21/MyPortfolio.git
+    ```bash
+     git clone https://github.com/Otienomark21/MyPortfolio.git
     ```
 2.  **Navigate to the project directory:**
     ```bash
